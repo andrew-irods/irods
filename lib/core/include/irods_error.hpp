@@ -69,6 +69,7 @@ namespace irods {
             bool        status() const;
             long long   code() const;
             std::string result() const;
+            std::string user_result() const;
             bool        ok();          // deprecated since 4.0.3
             bool        ok() const;
 

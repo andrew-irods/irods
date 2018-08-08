@@ -211,6 +211,34 @@ namespace irods {
     } // result
 
 // =-=-=-=-=-=-=-
+// public - return a user-consumable composite result.
+    std::string error::user_result() const {
+        if ( exception_ ) {
+            return exception_->what();
+        }
+
+        // compose single string of the result stack for print out
+        std::string result;
+        for ( size_t i = 0; i < result_stack_.size(); ++i ) {
+            if ( i != 0 ) {
+                result += "\n";
+            }
+
+            std::string msg = result_stack_[ result_stack_.size() - 1 - i ];
+            size_t pos = msg.find( " :  status [" );
+            if ( std::string::npos != pos ) {
+                msg = msg.substr( pos+strlen(" :  ") );
+            }
+            result += msg;
+        } // for i
+
+        // add extra newline for formatting
+        result += "\n\n";
+        return result;
+
+    } // result
+
+// =-=-=-=-=-=-=-
 // public - return the status_ - deprecated in 4.0.3
     bool error::ok() {
         return status_;
